@@ -19,21 +19,11 @@ require_once(dirname(__FILE__) . '/classes/FastSearchCache.php');
 
 class FastSearch extends Module
 {
-    private $hooks = array(
-        'displayTop',
-        'displayHeader', 
-        'actionProductAdd',
-        'actionProductUpdate',
-        'actionProductDelete',
-        'actionProductSave',
-        'actionUpdateQuantity'
-    );
-
     public function __construct()
     {
         $this->name = 'fastsearch';
         $this->tab = 'search_filter';
-        $this->version = '1.0.0';
+        $this->version = '1.0.1';
         $this->author = 'Monster Code';
         $this->need_instance = 0;
         $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
@@ -44,6 +34,9 @@ class FastSearch extends Module
         $this->displayName = $this->l('Szybka Wyszukiwarka Big Data');
         $this->description = $this->l('Zaawansowana wyszukiwarka dla dużych baz produktów z indeksowaniem full-text MySQL. Obsługuje 100k+ produktów z błyskawiczną prędkością.');
         $this->confirmUninstall = $this->l('Czy na pewno chcesz odinstalować moduł Szybka Wyszukiwarka? Wszystkie dane wyszukiwania zostaną usunięte.');
+        
+        // Dodaj informacje o hookach
+        $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
     }
 
     /**
@@ -61,10 +54,29 @@ class FastSearch extends Module
             return false;
         }
 
-        // Rejestruj hooki
-        foreach ($this->hooks as $hook) {
+        // Rejestruj hooki - dodaj wszystkie dostępne pozycje
+        $hooks_to_register = array(
+            'displayTop',
+            'displayNav',
+            'displayNavFullWidth', 
+            'displayHeader',
+            'displaySearch',
+            'displayTopColumn',
+            'displayNavigation',
+            'actionProductAdd',
+            'actionProductUpdate',
+            'actionProductDelete',
+            'actionProductSave',
+            'actionUpdateQuantity'
+        );
+        
+        foreach ($hooks_to_register as $hook) {
             if (!$this->registerHook($hook)) {
-                return false;
+                $this->_errors[] = sprintf('Cannot register hook %s', $hook);
+                // Don't fail installation for optional hooks
+                if (in_array($hook, array('actionProductAdd', 'actionProductUpdate', 'actionProductDelete'))) {
+                    return false;
+                }
             }
         }
 
@@ -1000,17 +1012,52 @@ class FastSearch extends Module
     }
 
     /**
-     * Hook wyświetlający wyszukiwarkę w header
+     * Hook wyświetlający wyszukiwarkę - uniwersalny dla różnych pozycji
      */
-    public function hookDisplayTop()
+    public function hookDisplayTop($params = null)
+    {
+        return $this->displaySearchWidget($params);
+    }
+    
+    public function hookDisplayNav($params = null)
+    {
+        return $this->displaySearchWidget($params);
+    }
+    
+    public function hookDisplayNavFullWidth($params = null)
+    {
+        return $this->displaySearchWidget($params);
+    }
+    
+    public function hookDisplaySearch($params = null)
+    {
+        return $this->displaySearchWidget($params);
+    }
+    
+    public function hookDisplayTopColumn($params = null)
+    {
+        return $this->displaySearchWidget($params);
+    }
+    
+    public function hookDisplayNavigation($params = null)
+    {
+        return $this->displaySearchWidget($params);
+    }
+    
+    /**
+     * Główna funkcja wyświetlająca widget wyszukiwarki
+     */
+    private function displaySearchWidget($params = null)
     {
         if (!Configuration::get('FASTSEARCH_ENABLED', 1)) {
             return '';
         }
 
+        // Dodaj CSS i JS
         $this->context->controller->addJS($this->_path . 'views/js/fastsearch.js');
         $this->context->controller->addCSS($this->_path . 'views/css/fastsearch.css');
         
+        // Przygotuj zmienne dla szablonu
         $this->smarty->assign(array(
             'search_url' => $this->context->link->getModuleLink('fastsearch', 'search'),
             'module_dir' => $this->_path,
@@ -1019,7 +1066,21 @@ class FastSearch extends Module
             'debounce_time' => Configuration::get('FASTSEARCH_DEBOUNCE_TIME', 150),
             'show_images' => Configuration::get('FASTSEARCH_SHOW_IMAGES', 1),
             'show_prices' => Configuration::get('FASTSEARCH_SHOW_PRICES', 1),
-            'show_descriptions' => Configuration::get('FASTSEARCH_SHOW_DESCRIPTIONS', 1)
+            'show_descriptions' => Configuration::get('FASTSEARCH_SHOW_DESCRIPTIONS', 1),
+            'show_categories' => Configuration::get('FASTSEARCH_SHOW_CATEGORIES', 1),
+            'enable_voice_search' => Configuration::get('FASTSEARCH_VOICE_SEARCH', 0),
+            'fastsearch_enabled' => true,
+            'language' => $this->context->language,
+            'currency' => $this->context->currency,
+            'urls' => array(
+                'no_picture_image' => array(
+                    'bySize' => array(
+                        'home_default' => array(
+                            'url' => $this->context->link->getImageLink('', $this->context->language->iso_code . '-default', 'home_default')
+                        )
+                    )
+                )
+            )
         ));
         
         return $this->display(__FILE__, 'fastsearch.tpl');
