@@ -376,9 +376,9 @@ window.FastSearchConfig = {
     showPrices: {if $show_prices}true{else}false{/if},
     showDescriptions: {if $show_descriptions}true{else}false{/if},
     moduleDir: '{$module_dir|escape:'javascript':'UTF-8'}',
-    language: '{$language.iso_code|escape:'javascript':'UTF-8'}',
-    currency: '{$currency.sign|escape:'javascript':'UTF-8'}',
-    fallbackImage: '{$urls.no_picture_image.bySize.home_default.url|escape:'javascript':'UTF-8'}',
+    language: '{if isset($language.iso_code)}{$language.iso_code|escape:'javascript':'UTF-8'}{else}en{/if}',
+    currency: '{if isset($currency.sign)}{$currency.sign|escape:'javascript':'UTF-8'}{else}€{/if}',
+    fallbackImage: '{if isset($urls.no_picture_image.bySize.home_default.url)}{$urls.no_picture_image.bySize.home_default.url|escape:'javascript':'UTF-8'}{else}/img/p/en-default-home_default.jpg{/if}',
     translations: {
         searching: '{l s='Searching...' mod='fastsearch' js=1}',
         noResults: '{l s='No products found' mod='fastsearch' js=1}',
@@ -408,21 +408,23 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 {* Schema.org structured data for SEO *}
+{if isset($language.iso_code) && isset($shop.url)}
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "url": "{$shop.url}",
+    "url": "{if isset($shop.url)}{$shop.url}{else}{$base_uri}{/if}",
     "potentialAction": {
         "@type": "SearchAction",
         "target": {
             "@type": "EntryPoint",
-            "urlTemplate": "{$shop.url}search?q={literal}{search_term_string}{/literal}"
+            "urlTemplate": "{if isset($shop.url)}{$shop.url}{else}{$base_uri}{/if}search?q={literal}{search_term_string}{/literal}"
         },
         "query-input": "required name=search_term_string"
     }
 }
 </script>
+{/if}
 
 {* CSS dla krytycznych stylów - inline dla szybkości *}
 <style>
