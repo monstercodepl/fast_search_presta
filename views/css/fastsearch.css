@@ -1,0 +1,1462 @@
+/**
+ * FastSearch CSS Styles
+ * Kompletne style dla modułu wyszukiwania FastSearch
+ * 
+ * @author    FastSearch Team
+ * @version   1.0.0
+ * @copyright 2025 FastSearch
+ * @license   MIT License
+ */
+
+/* ============================================================================
+   CSS VARIABLES & ROOT CONFIGURATION
+   ============================================================================ */
+:root {
+  /* Primary Colors */
+  --fastsearch-primary: #25b9d7;
+  --fastsearch-primary-hover: #1ea3bd;
+  --fastsearch-primary-light: rgba(37, 185, 215, 0.1);
+  
+  /* Neutral Colors */
+  --fastsearch-white: #ffffff;
+  --fastsearch-gray-50: #f9fafb;
+  --fastsearch-gray-100: #f3f4f6;
+  --fastsearch-gray-200: #e5e7eb;
+  --fastsearch-gray-300: #d1d5db;
+  --fastsearch-gray-400: #9ca3af;
+  --fastsearch-gray-500: #6b7280;
+  --fastsearch-gray-600: #4b5563;
+  --fastsearch-gray-700: #374151;
+  --fastsearch-gray-800: #1f2937;
+  --fastsearch-gray-900: #111827;
+  
+  /* Status Colors */
+  --fastsearch-success: #10b981;
+  --fastsearch-warning: #f59e0b;
+  --fastsearch-error: #ef4444;
+  --fastsearch-info: #3b82f6;
+  
+  /* Typography */
+  --fastsearch-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --fastsearch-font-size-xs: 0.75rem;
+  --fastsearch-font-size-sm: 0.875rem;
+  --fastsearch-font-size-base: 1rem;
+  --fastsearch-font-size-lg: 1.125rem;
+  --fastsearch-font-size-xl: 1.25rem;
+  --fastsearch-font-size-2xl: 1.5rem;
+  
+  /* Spacing */
+  --fastsearch-space-1: 0.25rem;
+  --fastsearch-space-2: 0.5rem;
+  --fastsearch-space-3: 0.75rem;
+  --fastsearch-space-4: 1rem;
+  --fastsearch-space-5: 1.25rem;
+  --fastsearch-space-6: 1.5rem;
+  --fastsearch-space-8: 2rem;
+  --fastsearch-space-10: 2.5rem;
+  --fastsearch-space-12: 3rem;
+  
+  /* Border Radius */
+  --fastsearch-radius-sm: 0.375rem;
+  --fastsearch-radius: 0.5rem;
+  --fastsearch-radius-lg: 0.75rem;
+  --fastsearch-radius-xl: 1rem;
+  --fastsearch-radius-full: 9999px;
+  
+  /* Shadows */
+  --fastsearch-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --fastsearch-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --fastsearch-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --fastsearch-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --fastsearch-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  /* Transitions */
+  --fastsearch-transition: all 0.15s ease-in-out;
+  --fastsearch-transition-slow: all 0.3s ease-in-out;
+  
+  /* Z-Index Scale */
+  --fastsearch-z-dropdown: 1000;
+  --fastsearch-z-sticky: 1020;
+  --fastsearch-z-fixed: 1030;
+  --fastsearch-z-modal-backdrop: 1040;
+  --fastsearch-z-modal: 1050;
+  --fastsearch-z-popover: 1060;
+  --fastsearch-z-tooltip: 1070;
+}
+
+/* Dark Mode Variables */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fastsearch-white: #1f2937;
+    --fastsearch-gray-50: #374151;
+    --fastsearch-gray-100: #4b5563;
+    --fastsearch-gray-200: #6b7280;
+    --fastsearch-gray-300: #9ca3af;
+    --fastsearch-gray-400: #d1d5db;
+    --fastsearch-gray-500: #e5e7eb;
+    --fastsearch-gray-600: #f3f4f6;
+    --fastsearch-gray-700: #f9fafb;
+    --fastsearch-gray-800: #ffffff;
+    --fastsearch-gray-900: #ffffff;
+  }
+}
+
+/* ============================================================================
+   MAIN WRAPPER & CONTAINER
+   ============================================================================ */
+.fastsearch-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  z-index: var(--fastsearch-z-dropdown);
+  font-family: var(--fastsearch-font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.fastsearch-input-container {
+  position: relative;
+  width: 100%;
+}
+
+/* ============================================================================
+   INPUT WRAPPER & STYLING
+   ============================================================================ */
+.fastsearch-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--fastsearch-white);
+  border: 2px solid var(--fastsearch-gray-200);
+  border-radius: var(--fastsearch-radius-full);
+  transition: var(--fastsearch-transition);
+  box-shadow: var(--fastsearch-shadow-sm);
+  overflow: hidden;
+}
+
+.fastsearch-input-wrapper:hover {
+  border-color: var(--fastsearch-gray-300);
+  box-shadow: var(--fastsearch-shadow);
+}
+
+.fastsearch-input-wrapper:focus-within {
+  border-color: var(--fastsearch-primary);
+  box-shadow: 0 0 0 3px var(--fastsearch-primary-light), var(--fastsearch-shadow-md);
+  outline: none;
+}
+
+.fastsearch-input-wrapper.fastsearch-active {
+  border-radius: var(--fastsearch-radius-lg) var(--fastsearch-radius-lg) var(--fastsearch-radius-sm) var(--fastsearch-radius-sm);
+}
+
+/* Search Icon */
+.fastsearch-search-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--fastsearch-space-4);
+  color: var(--fastsearch-gray-400);
+  transition: var(--fastsearch-transition);
+}
+
+.fastsearch-input-wrapper:focus-within .fastsearch-search-icon {
+  color: var(--fastsearch-primary);
+}
+
+.fastsearch-search-icon .material-icons {
+  font-size: 1.25rem;
+}
+
+/* Main Input Field */
+.fastsearch-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: var(--fastsearch-space-4) var(--fastsearch-space-2);
+  font-size: var(--fastsearch-font-size-base);
+  font-family: inherit;
+  color: var(--fastsearch-gray-900);
+  outline: none;
+  min-width: 0;
+}
+
+.fastsearch-input::placeholder {
+  color: var(--fastsearch-gray-400);
+  opacity: 1;
+}
+
+.fastsearch-input:focus {
+  outline: none;
+}
+
+/* Action Buttons Container */
+.fastsearch-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--fastsearch-space-1);
+  padding-right: var(--fastsearch-space-3);
+}
+
+/* Clear Button */
+.fastsearch-clear-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  background: transparent;
+  color: var(--fastsearch-gray-400);
+  border-radius: var(--fastsearch-radius-full);
+  cursor: pointer;
+  transition: var(--fastsearch-transition);
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.fastsearch-clear-btn.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.fastsearch-clear-btn:hover {
+  background: var(--fastsearch-gray-100);
+  color: var(--fastsearch-gray-600);
+}
+
+.fastsearch-clear-btn .material-icons {
+  font-size: 1.125rem;
+}
+
+/* Voice Search Button */
+.fastsearch-voice-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  background: transparent;
+  color: var(--fastsearch-gray-400);
+  border-radius: var(--fastsearch-radius-full);
+  cursor: pointer;
+  transition: var(--fastsearch-transition);
+}
+
+.fastsearch-voice-btn:hover {
+  background: var(--fastsearch-primary-light);
+  color: var(--fastsearch-primary);
+}
+
+.fastsearch-voice-btn.listening {
+  background: var(--fastsearch-error);
+  color: var(--fastsearch-white);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.fastsearch-voice-btn .material-icons {
+  font-size: 1.125rem;
+}
+
+/* Loader */
+.fastsearch-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+}
+
+.fastsearch-spinner {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid var(--fastsearch-gray-200);
+  border-top: 2px solid var(--fastsearch-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* ============================================================================
+   QUICK FILTERS
+   ============================================================================ */
+.fastsearch-quick-filters {
+  margin-top: var(--fastsearch-space-3);
+  padding: var(--fastsearch-space-4);
+  background: var(--fastsearch-gray-50);
+  border-radius: var(--fastsearch-radius);
+  border: 1px solid var(--fastsearch-gray-200);
+  animation: slideDown 0.2s ease-out;
+}
+
+.fastsearch-filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fastsearch-space-4);
+  align-items: center;
+}
+
+.fastsearch-filter-label {
+  display: flex;
+  align-items: center;
+  gap: var(--fastsearch-space-2);
+  font-size: var(--fastsearch-font-size-sm);
+  color: var(--fastsearch-gray-700);
+  cursor: pointer;
+  margin: 0;
+}
+
+.fastsearch-filter-checkbox {
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid var(--fastsearch-gray-300);
+  border-radius: var(--fastsearch-radius-sm);
+  margin: 0;
+}
+
+.fastsearch-filter-checkbox:checked {
+  background-color: var(--fastsearch-primary);
+  border-color: var(--fastsearch-primary);
+}
+
+.fastsearch-price-range {
+  display: flex;
+  align-items: center;
+  gap: var(--fastsearch-space-2);
+}
+
+.fastsearch-price-range input {
+  width: 6rem;
+  padding: var(--fastsearch-space-2);
+  border: 1px solid var(--fastsearch-gray-300);
+  border-radius: var(--fastsearch-radius-sm);
+  font-size: var(--fastsearch-font-size-sm);
+  text-align: center;
+}
+
+.fastsearch-price-separator {
+  color: var(--fastsearch-gray-400);
+  font-weight: 500;
+}
+
+/* ============================================================================
+   RESULTS CONTAINER
+   ============================================================================ */
+.fastsearch-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--fastsearch-white);
+  border: 1px solid var(--fastsearch-gray-200);
+  border-radius: var(--fastsearch-radius-lg);
+  box-shadow: var(--fastsearch-shadow-xl);
+  max-height: 70vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: var(--fastsearch-z-dropdown);
+  margin-top: var(--fastsearch-space-2);
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: var(--fastsearch-transition);
+  scrollbar-width: thin;
+  scrollbar-color: var(--fastsearch-gray-300) transparent;
+}
+
+.fastsearch-results::-webkit-scrollbar {
+  width: 6px;
+}
+
+.fastsearch-results::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.fastsearch-results::-webkit-scrollbar-thumb {
+  background: var(--fastsearch-gray-300);
+  border-radius: var(--fastsearch-radius-full);
+}
+
+.fastsearch-results::-webkit-scrollbar-thumb:hover {
+  background: var(--fastsearch-gray-400);
+}
+
+.fastsearch-results.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================================
+   PRODUCT ITEMS
+   ============================================================================ */
+.fastsearch-product {
+  display: flex;
+  align-items: flex-start;
+  padding: var(--fastsearch-space-4);
+  border-bottom: 1px solid var(--fastsearch-gray-100);
+  cursor: pointer;
+  transition: var(--fastsearch-transition);
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  overflow: hidden;
+}
+
+.fastsearch-product:hover {
+  background: var(--fastsearch-gray-50);
+  text-decoration: none;
+  color: inherit;
+  transform: translateX(2px);
+}
+
+.fastsearch-product:last-child {
+  border-bottom: none;
+}
+
+.fastsearch-product.selected {
+  background: var(--fastsearch-primary-light);
+  border-left: 3px solid var(--fastsearch-primary);
+}
+
+.fastsearch-product.selected::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--fastsearch-primary);
+}
+
+/* Product Image */
+.fastsearch-image-wrapper {
+  position: relative;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin-right: var(--fastsearch-space-4);
+  border-radius: var(--fastsearch-radius);
+  overflow: hidden;
+  background: var(--fastsearch-gray-100);
+  flex-shrink: 0;
+}
+
+.fastsearch-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--fastsearch-transition);
+}
+
+.fastsearch-product:hover .fastsearch-image {
+  transform: scale(1.05);
+}
+
+/* Product Badges */
+.fastsearch-badges {
+  position: absolute;
+  top: var(--fastsearch-space-1);
+  right: var(--fastsearch-space-1);
+  display: flex;
+  flex-direction: column;
+  gap: var(--fastsearch-space-1);
+}
+
+.fastsearch-badge {
+  padding: 0.125rem var(--fastsearch-space-2);
+  font-size: var(--fastsearch-font-size-xs);
+  font-weight: 600;
+  border-radius: var(--fastsearch-radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.fastsearch-badge-sale {
+  background: var(--fastsearch-error);
+  color: var(--fastsearch-white);
+}
+
+.fastsearch-badge-low-stock {
+  background: var(--fastsearch-warning);
+  color: var(--fastsearch-white);
+}
+
+.fastsearch-badge-online-only {
+  background: var(--fastsearch-info);
+  color: var(--fastsearch-white);
+}
+
+/* Product Info */
+.fastsearch-product-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--fastsearch-space-2);
+}
+
+.fastsearch-product-main {
+  flex: 1;
+}
+
+.fastsearch-product-name {
+  margin: 0 0 var(--fastsearch-space-1) 0;
+  font-size: var(--fastsearch-font-size-base);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--fastsearch-gray-900);
+  display: flex;
+  flex-direction: column;
+  gap: var(--fastsearch-space-1);
+}
+
+.fastsearch-name-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fastsearch-reference {
+  font-size: var(--fastsearch-font-size-xs);
+  font-weight: 500;
+  color: var(--fastsearch-gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fastsearch-description {
+  margin: 0;
+  font-size: var(--fastsearch-font-size-sm);
+  color: var(--fastsearch-gray-600);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fastsearch-product-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--fastsearch-space-3);
+  flex-wrap: wrap;
+  margin-top: var(--fastsearch-space-1);
+}
+
+.fastsearch-price-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--fastsearch-space-2);
+}
+
+.fastsearch-price {
+  font-size: var(--fastsearch-font-size-lg);
+  font-weight: 700;
+  color: var(--fastsearch-primary);
+}
+
+.fastsearch-old-price {
+  font-size: var(--fastsearch-font-size-sm);
+  color: var(--fastsearch-gray-400);
+  text-decoration: line-through;
+}
+
+.fastsearch-category {
+  font-size: var(--fastsearch-font-size-xs);
+  color: var(--fastsearch-gray-500);
+  background: var(--fastsearch-gray-100);
+  padding: 0.25rem var(--fastsearch-space-2);
+  border-radius: var(--fastsearch-radius-full);
+}
+
+/* Product Actions */
+.fastsearch-product-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fastsearch-space-2);
+  align-items: flex-end;
+  margin-left: var(--fastsearch-space-3);
+}
+
+.fastsearch-availability {
+  text-align: right;
+}
+
+.fastsearch-availability-text {
+  font-size: var(--fastsearch-font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fastsearch-availability-text.available {
+  color: var(--fastsearch-success);
+}
+
+.fastsearch-availability-text.unavailable {
+  color: var(--fastsearch-error);
+}
+
+.fastsearch-stock-level {
+  display: block;
+  font-size: var(--fastsearch-font-size-xs);
+  color: var(--fastsearch-warning);
+  margin-top: var(--fastsearch-space-1);
+}
+
+.fastsearch-action-buttons {
+  display: flex;
+  gap: var(--fastsearch-space-1);
+  opacity: 0;
+  transform: translateX(8px);
+  transition: var(--fastsearch-transition);
+}
+
+.fastsearch-product:hover .fastsearch-action-buttons {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fastsearch-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--fastsearch-space-1);
+  padding: var(--fastsearch-space-2) var(--fastsearch-space-3);
+  border: 1px solid var(--fastsearch-gray-300);
+  background: var(--fastsearch-white);
+  color: var(--fastsearch-gray-700);
+  font-size: var(--fastsearch-font-size-xs);
+  font-weight: 500;
+  border-radius: var(--fastsearch-radius);
+  cursor: pointer;
+  transition: var(--fastsearch-transition);
+  text-decoration: none;
+}
+
+.fastsearch-btn:hover {
+  background: var(--fastsearch-gray-50);
+  border-color: var(--fastsearch-gray-400);
+  transform: translateY(-1px);
+  box-shadow: var(--fastsearch-shadow-sm);
+}
+
+.fastsearch-btn-cart {
+  background: var(--fastsearch-primary);
+  border-color: var(--fastsearch-primary);
+  color: var(--fastsearch-white);
+}
+
+.fastsearch-btn-cart:hover {
+  background: var(--fastsearch-primary-hover);
+  border-color: var(--fastsearch-primary-hover);
+  color: var(--fastsearch-white);
+}
+
+.fastsearch-btn .material-icons {
+  font-size: 1rem;
+}
+
+/* Product Link Arrow */
+.fastsearch-product-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: var(--fastsearch-space-2);
+  color: var(--fastsearch-gray-400);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: var(--fastsearch-transition);
+}
+
+.fastsearch-product:hover .fastsearch-product-link {
+  opacity: 1;
+  transform: translateX(0);
+  color: var(--fastsearch-primary);
+}
+
+/* ============================================================================
+   SUGGESTIONS & RECENT SEARCHES
+   ============================================================================ */
+.fastsearch-suggestion {
+  display: flex;
+  align-items: center;
+  padding: var(--fastsearch-space-3) var(--fastsearch-space-4);
+  border-bottom: 1px solid var(--fastsearch-gray-100);
+  cursor: pointer;
+  transition: var(--fastsearch-transition);
+  position: relative;
+}
+
+.fastsearch-suggestion:hover {
+  background: var(--fastsearch-gray-50);
+}
+
+.fastsearch-suggestion:last-child {
+  border-bottom: none;
+}
+
+.fastsearch-suggestion.selected {
+  background: var(--fastsearch-primary-light);
+}
+
+.fastsearch-suggestion-icon {
+  display: flex;
+  align-items: center;
+  margin-right: var(--fastsearch-space-3);
+  color: var(--fastsearch-gray-400);
+}
+
+.fastsearch-suggestion-icon .material-icons {
+  font-size: 1.125rem;
+}
+
+.fastsearch-suggestion-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.fastsearch-suggestion-text {
+  font-size: var(--fastsearch-font-size-base);
+  color: var(--fastsearch-gray-900);
+  font-weight: 500;
+}
+
+.fastsearch-suggestion-message {
+  display: block;
+  font-size: var(--fastsearch-font-size-xs);
+  color: var(--fastsearch-gray-500);
+  margin-top: var(--fastsearch-space-1);
+  font-style: italic;
+}
+
+.fastsearch-suggestion-meta {
+  display: flex;
+  align-items: center;
+  margin-left: var(--fastsearch-space-3);
+}
+
+.fastsearch-frequency {
+  font-size: var(--fastsearch-font-size-xs);
+  color: var(--fastsearch-gray-400);
+  background: var(--fastsearch-gray-100);
+  padding: 0.125rem var(--fastsearch-space-2);
+  border-radius: var(--fastsearch-radius-full);
+}
+
+.fastsearch-suggestion-remove {
+  position: absolute;
+  right: var(--fastsearch-space-2);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.5rem;
+  height: 1.5rem;
+  border: none;
+  background: transparent;
+  color: var(--fastsearch-gray-400);
+  border-radius: var(--fastsearch-radius-full);
+  cursor: pointer;
+  opacity: 0;
+  transition: var(--fastsearch-transition);
+}
+
+.fastsearch-suggestion:hover .fastsearch-suggestion-remove {
+  opacity: 1;
+}
+
+.fastsearch-suggestion-remove:hover {
+  background: var(--fastsearch-error);
+  color: var(--fastsearch-white);
+}
+
+/* Section Headers */
+.fastsearch-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--fastsearch-space-3) var(--fastsearch-space-4);
+  background: var(--fastsearch-gray-50);
+  border-bottom: 1px solid var(--fastsearch-gray-200);
+}
+
+.fastsearch-section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--fastsearch-space-2);
+  margin: 0;
+  font-size: var(--fastsearch-font-size-sm);
+  font-weight: 600;
+  color: var(--fastsearch-gray-700);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fastsearch-section-title .material-icons {
+  font-size: 1rem;
+}
+
+.fastsearch-clear-all {
+  background: none;
+  border: none;
+  color: var(--fastsearch-primary);
+  font-size: var(--fastsearch-font-size-xs);
+  font-weight: 500;
+  cursor: pointer;
+  padding: var(--fastsearch-space-1) var(--fastsearch-space-2);
+  border-radius: var(--fastsearch-radius-sm);
+  transition: var(--fastsearch-transition);
+}
+
+.fastsearch-clear-all:hover {
+  background: var(--fastsearch-primary-light);
+}
+
+/* ============================================================================
+   SPECIAL STATES
+   ============================================================================ */
+
+/* No Results */
+.fastsearch-no-results {
+  padding: var(--fastsearch-space-8) var(--fastsearch-space-4);
+  text-align: center;
+  color: var(--fastsearch-gray-600);
+}
+
+.fastsearch-no-results-icon {
+  margin-bottom: var(--fastsearch-space-4);
+}
+
+.fastsearch-no-results-icon .material-icons {
+  font-size: 3rem;
+  color: var(--fastsearch-gray-300);
+}
+
+.fastsearch-no-results-title {
+  margin: 0 0 var(--fastsearch-space-2) 0;
+  font-size: var(--fastsearch-font-size-xl);
+  font-weight: 600;
+  color: var(--fastsearch-gray-700);
+}
+
+.fastsearch-no-results-message {
+  margin: 0 0 var(--fastsearch-space-6) 0;
+  font-size: var(--fastsearch-font-size-base);
+  color: var(--fastsearch-gray-500);
+}
+
+.fastsearch-suggestions-section {
+  margin-bottom: var(--fastsearch-space-6);
+}
+
+.fastsearch-suggestions-section h4 {
+  margin: 0 0 var(--fastsearch-space-3) 0;
+  font-size: var(--fastsearch-font-size-base);
+  font-weight: 600;
+  color: var(--fastsearch-gray-700);
+}
+
+.fastsearch-suggestions-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fastsearch-space-2);
+  justify-content: center;
+}
+
+.fastsearch-suggestion-btn {
+  padding: var(--fastsearch-space-2) var(--fastsearch-space-4);
+  background: var(--fastsearch-white);
+  border: 1px solid var(--fastsearch-gray-300);
+  color: var(--fastsearch-gray-700);
+  font-size: var(--fastsearch-font-size-sm);
+  border-radius: var(--fastsearch-radius-full);
+  cursor: pointer;
+  transition: var(--fastsearch-transition);
+}
+
+.fastsearch-suggestion-btn:hover {
+  background: var(--fastsearch-primary);
+  border-color: var(--fastsearch-primary);
+  color: var(--fastsearch-white);
+  transform: translateY(-1px);
+}
+
+.fastsearch-search-tips {
+  text-align: left;
+  max-width: 20rem;
+  margin: 0 auto;
+}
+
+.fastsearch-search-tips h4 {
+  margin: 0 0 var(--fastsearch-space-3) 0;
+  font-size: var(--fastsearch-font-size-base);
+  font-weight: 600;
+  color: var(--fastsearch-gray-700);
+}
+
+.fastsearch-search-tips ul {
+  margin: 0;
+  padding-left: var(--fastsearch-space-5);
+  list-style-type: disc;
+}
+
+.fastsearch-search-tips li {
+  margin-bottom: var(--fastsearch-space-1);
+  font-size: var(--fastsearch-font-size-sm);
+  color: var(--fastsearch-gray-600);
+}
+
+/* Loading State */
+.fastsearch-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--fastsearch-space-8) var(--fastsearch-space-4);
+  color: var(--fastsearch-gray-500);
+}
+
+.fastsearch-loading-spinner {
+  margin-bottom: var(--fastsearch-space-4);
+}
+
+.fastsearch-loading-text {
+  font-size: var(--fastsearch-font-size-base);
+  font-weight: 500;
+}
+
+/* Error State */
+.fastsearch-error {
+  padding: var(--fastsearch-space-8) var(--fastsearch-space-4);
+  text-align: center;
+  color: var(--fastsearch-gray-600);
+}
+
+.fastsearch-error-icon {
+  margin-bottom: var(--fastsearch-space-4);
+}
+
+.fastsearch-error-icon .material-icons {
+  font-size: 2.5rem;
+  color: var(--fastsearch-error);
+}
+
+.fastsearch-error-title {
+  margin: 0 0 var(--fastsearch-space-2) 0;
+  font-size: var(--fastsearch-font-size-lg);
+  font-weight: 600;
+  color: var(--fastsearch-gray-700);
+}
+
+.fastsearch-error-message {
+  margin: 0 0 var(--fastsearch-space-6) 0;
+  font-size: var(--fastsearch-font-size-base);
+  color: var(--fastsearch-gray-500);
+}
+
+.fastsearch-retry-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--fastsearch-space-2);
+  padding: var(--fastsearch-space-3) var(--fastsearch-space-6);
+  background: var(--fastsearch-primary);
+  border: none;
+  color: var(--fastsearch-white);
+  font-size: var(--fastsearch-font-size-sm);
+  font-weight: 500;
+  border-radius: var(--fastsearch-radius);
+  cursor: pointer;
+  transition: var(--fastsearch-transition);
+}
+
+.fastsearch-retry-btn:hover {
+  background: var(--fastsearch-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--fastsearch-shadow);
+}
+
+.fastsearch-retry-btn .material-icons {
+  font-size: 1rem;
+}
+
+/* ============================================================================
+   RESULTS FOOTER
+   ============================================================================ */
+.fastsearch-results-footer {
+  padding: var(--fastsearch-space-4);
+  border-top: 1px solid var(--fastsearch-gray-200);
+  background: var(--fastsearch-gray-50);
+  display: flex;
+  flex-direction: column;
+  gap: var(--fastsearch-space-3);
+  border-radius: 0 0 var(--fastsearch-radius-lg) var(--fastsearch-radius-lg);
+}
+
+.fastsearch-results-info {
+  text-align: center;
+}
+
+.fastsearch-results-count {
+  font-size: var(--fastsearch-font-size-sm);
+  color: var(--fastsearch-gray-600);
+}
+
+.fastsearch-timing {
+  color: var(--fastsearch-gray-400);
+  margin-left: var(--fastsearch-space-2);
+}
+
+.fastsearch-results-actions {
+  display: flex;
+  gap: var(--fastsearch-space-3);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.fastsearch-load-more,
+.fastsearch-view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--fastsearch-space-2);
+  padding: var(--fastsearch-space-2) var(--fastsearch-space-4);
+  background: var(--fastsearch-white);
+  border: 1px solid var(--fastsearch-gray-300);
+  color: var(--fastsearch-gray-700);
+  font-size: var(--fastsearch-font-size-sm);
+  font-weight: 500;
+  border-radius: var(--fastsearch-radius);
+  cursor: pointer;
+  transition: var(--fastsearch-transition);
+  text-decoration: none;
+}
+
+.fastsearch-load-more:hover,
+.fastsearch-view-all:hover {
+  background: var(--fastsearch-primary);
+  border-color: var(--fastsearch-primary);
+  color: var(--fastsearch-white);
+  text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: var(--fastsearch-shadow);
+}
+
+.fastsearch-load-more .material-icons,
+.fastsearch-view-all .material-icons {
+  font-size: 1rem;
+}
+
+/* ============================================================================
+   HIGHLIGHT & MARK
+   ============================================================================ */
+.fastsearch-highlight,
+mark.fastsearch-highlight {
+  background: linear-gradient(120deg, rgba(255, 235, 59, 0.8) 0%, rgba(255, 235, 59, 0.3) 100%);
+  color: var(--fastsearch-gray-900);
+  padding: 0.125rem 0.25rem;
+  border-radius: var(--fastsearch-radius-sm);
+  font-weight: 600;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* ============================================================================
+   OVERLAY
+   ============================================================================ */
+.fastsearch-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: calc(var(--fastsearch-z-dropdown) - 1);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.fastsearch-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ============================================================================
+   ANIMATIONS
+   ============================================================================ */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -468px 0; }
+  100% { background-position: 468px 0; }
+}
+
+/* Shimmer effect for loading */
+.fastsearch-shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 400% 100%;
+  animation: shimmer 1.2s ease-in-out infinite;
+}
+
+/* ============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================ */
+
+/* Large Tablets */
+@media (max-width: 1024px) {
+  .fastsearch-wrapper {
+    max-width: 500px;
+  }
+  
+  .fastsearch-product-actions {
+    display: none;
+  }
+  
+  .fastsearch-action-buttons {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Small Tablets */
+@media (max-width: 768px) {
+  .fastsearch-wrapper {
+    max-width: 100%;
+    margin: 0 var(--fastsearch-space-4);
+  }
+  
+  .fastsearch-results {
+    position: fixed;
+    top: 70px;
+    left: var(--fastsearch-space-4);
+    right: var(--fastsearch-space-4);
+    max-height: calc(100vh - 90px);
+    border-radius: var(--fastsearch-radius-lg);
+  }
+  
+  .fastsearch-overlay {
+    display: block;
+  }
+  
+  .fastsearch-product {
+    padding: var(--fastsearch-space-3);
+  }
+  
+  .fastsearch-image-wrapper {
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  .fastsearch-product-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--fastsearch-space-2);
+  }
+  
+  .fastsearch-filter-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .fastsearch-price-range {
+    justify-content: space-between;
+  }
+  
+  .fastsearch-price-range input {
+    flex: 1;
+    max-width: calc(50% - var(--fastsearch-space-1));
+  }
+}
+
+/* Mobile Phones */
+@media (max-width: 480px) {
+  .fastsearch-wrapper {
+    margin: 0 var(--fastsearch-space-3);
+  }
+  
+  .fastsearch-results {
+    left: var(--fastsearch-space-3);
+    right: var(--fastsearch-space-3);
+  }
+  
+  .fastsearch-input {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  .fastsearch-product {
+    flex-direction: column;
+    gap: var(--fastsearch-space-3);
+  }
+  
+  .fastsearch-image-wrapper {
+    width: 100%;
+    height: 8rem;
+    margin-right: 0;
+  }
+  
+  .fastsearch-product-info {
+    width: 100%;
+  }
+  
+  .fastsearch-product-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin-left: 0;
+  }
+  
+  .fastsearch-action-buttons {
+    flex-direction: row;
+  }
+  
+  .fastsearch-btn {
+    font-size: var(--fastsearch-font-size-xs);
+    padding: var(--fastsearch-space-2);
+  }
+  
+  .fastsearch-btn span {
+    display: none;
+  }
+  
+  .fastsearch-no-results {
+    padding: var(--fastsearch-space-6) var(--fastsearch-space-3);
+  }
+  
+  .fastsearch-suggestions-list {
+    flex-direction: column;
+  }
+  
+  .fastsearch-suggestion-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .fastsearch-wrapper,
+  .fastsearch-results,
+  .fastsearch-overlay {
+    display: none !important;
+  }
+}
+
+/* ============================================================================
+   ACCESSIBILITY ENHANCEMENTS
+   ============================================================================ */
+
+/* Focus Indicators */
+.fastsearch-input:focus,
+.fastsearch-clear-btn:focus,
+.fastsearch-voice-btn:focus,
+.fastsearch-product:focus,
+.fastsearch-suggestion:focus,
+.fastsearch-btn:focus,
+.fastsearch-suggestion-btn:focus {
+  outline: 2px solid var(--fastsearch-primary);
+  outline-offset: 2px;
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  :root {
+    --fastsearch-gray-100: #ffffff;
+    --fastsearch-gray-200: #000000;
+    --fastsearch-gray-300: #000000;
+    --fastsearch-gray-400: #000000;
+    --fastsearch-gray-500: #000000;
+    --fastsearch-primary: #0000ff;
+    --fastsearch-primary-hover: #000080;
+  }
+  
+  .fastsearch-input-wrapper {
+    border-width: 3px;
+  }
+  
+  .fastsearch-product:hover {
+    background: #ffff00;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .fastsearch-spinner {
+    animation: none;
+  }
+  
+  .fastsearch-results {
+    transition: none;
+  }
+  
+  .fastsearch-product:hover {
+    transform: none;
+  }
+}
+
+/* ============================================================================
+   UTILITY CLASSES
+   ============================================================================ */
+.fastsearch-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.fastsearch-hidden {
+  display: none !important;
+}
+
+.fastsearch-invisible {
+  visibility: hidden;
+}
+
+.fastsearch-fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.fastsearch-fade-out {
+  animation: fadeOut 0.3s ease-in-out;
+}
+
+.fastsearch-slide-down {
+  animation: slideDown 0.2s ease-out;
+}
+
+.fastsearch-slide-up {
+  animation: slideUp 0.2s ease-out;
+}
+
+/* ============================================================================
+   INTEGRATION WITH PRESTASHOP THEMES
+   ============================================================================ */
+
+/* Override PrestaShop default styles if needed */
+.fastsearch-wrapper .form-control {
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+.fastsearch-wrapper .btn {
+  border-radius: var(--fastsearch-radius);
+  font-weight: 500;
+}
+
+/* Classic Theme Integration */
+.header-top .fastsearch-wrapper {
+  margin: 0;
+}
+
+/* Compatibility with common theme classes */
+.search-widget .fastsearch-wrapper,
+.block-search .fastsearch-wrapper {
+  width: 100%;
+  max-width: none;
+}
+
+/* RTL Support */
+[dir="rtl"] .fastsearch-search-icon {
+  padding: 0 var(--fastsearch-space-4) 0 0;
+}
+
+[dir="rtl"] .fastsearch-actions {
+  padding-left: var(--fastsearch-space-3);
+  padding-right: 0;
+}
+
+[dir="rtl"] .fastsearch-image-wrapper {
+  margin-left: var(--fastsearch-space-4);
+  margin-right: 0;
+}
+
+[dir="rtl"] .fastsearch-product-actions {
+  margin-right: var(--fastsearch-space-3);
+  margin-left: 0;
+}
+
+[dir="rtl"] .fastsearch-product-link {
+  margin-right: var(--fastsearch-space-2);
+  margin-left: 0;
+}
+
+[dir="rtl"] .fastsearch-product:hover .fastsearch-product-link {
+  transform: translateX(0) scaleX(-1);
+}
+
+/* ============================================================================
+   PERFORMANCE OPTIMIZATIONS
+   ============================================================================ */
+
+/* GPU Acceleration for smooth animations */
+.fastsearch-results,
+.fastsearch-product,
+.fastsearch-spinner {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+/* Optimize repaints */
+.fastsearch-image {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Optimize for 60fps animations */
+.fastsearch-product:hover {
+  will-change: transform;
+}
+
+.fastsearch-product:not(:hover) {
+  will-change: auto;
+}
